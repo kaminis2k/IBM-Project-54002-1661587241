@@ -1,0 +1,63 @@
+void setup()
+
+{
+
+  Serial.begin(9600);
+
+  pinMode(12,OUTPUT);
+
+  pinMode(2,INPUT);
+
+}
+
+void loop()
+
+{
+
+  int motion=digitalRead(2);
+
+  double data=analogRead(A0);
+
+  double n=data/1024;
+
+  double volt=n*5; //because connected to 5v
+
+  double off=volt-0.5;
+
+  double temperature=off*100;
+
+  Serial.print("Temperature Data: ");
+
+  Serial.println(temperature);
+
+  if(motion==1 && temperature<60){
+
+    Serial.println("Motion is Detected");
+
+    tone(12,1000);
+
+  }
+
+  else if(motion==0 && temperature>60){
+
+    Serial.println("Temperature is more than 60°C");
+
+    tone(12,2000);
+
+  }
+
+    else if(motion==1 && temperature>60){
+
+    Serial.println("Motion is Detected");
+
+    Serial.println("Temperature is more than 60°C");
+
+    tone(12,5000);
+
+  }
+
+  else if(motion==0 && temperature<60)
+
+     noTone(12);
+
+}
